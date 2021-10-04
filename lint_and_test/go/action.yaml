@@ -1,6 +1,12 @@
 name: Lint and Test
 description: Choria Go Project Lint and Test using Ginkgo
 
+inputs:
+  ginkgo:
+    description: Set to 'yes' to use Ginkgo to run tests
+    default: "no"
+    required: false
+
 runs:
   using: composite
   steps:
@@ -36,4 +42,11 @@ runs:
 
     - name: Go Test
       shell: bash
-      run: go test -vet=off -i ./...
+      run: |
+        if [ "${{ inputs.ginkgo }}" = "yes" ]
+        then
+          go get -u github.com/onsi/ginkgo/ginkgo
+          ginkgo -vet=off -r .
+        else
+          go test -v -vet=off ./...
+        fi
