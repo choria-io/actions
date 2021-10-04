@@ -1,0 +1,39 @@
+name: Lint and Test
+description: Choria Go Project Lint and Test using Ginkgo
+
+runs:
+  using: composite
+  steps:
+    - name: Download go dependencies
+      shell: bash
+      run: go mod download
+
+    - name: Ensure well formatted files
+      shell: bash
+      run: |
+        GO_LIST=$(go list ./...)
+        $(exit $(go fmt $GO_LIST | wc -l))
+
+    - name: Ensure tidy go mod
+      shell: bash
+      run: $(exit $(go mod tidy | wc -l))
+
+    - name: Spell check
+      shell: bash
+      run: |
+        go get -u github.com/client9/misspell/cmd/misspell
+        find . -type f -name "*.go" | xargs misspell -error -locale US
+
+    - name: Go vet
+      shell: bash
+      run: go vet $(go list ./...)
+
+    - name: Static Check
+      shell: bash
+      run: |
+        go get -u honnef.co/go/tools/cmd/staticcheck
+        staticcheck $(go list ./...)
+
+    - name: Go Test
+      shell: bash
+      run: go test -vet=off -i ./...
