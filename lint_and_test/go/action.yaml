@@ -22,7 +22,7 @@ runs:
       shell: bash
       run: |
         go get -u github.com/client9/misspell/cmd/misspell
-        find . -type f -name "*.go" | xargs misspell -error -locale US
+        find . -type f -name "*.go" | xargs misspell -error -locale US -i flavour
 
     - name: Go vet
       shell: bash
