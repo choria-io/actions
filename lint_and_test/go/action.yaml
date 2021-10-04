@@ -46,7 +46,7 @@ runs:
         if [ "${{ inputs.ginkgo }}" = "yes" ]
         then
           go get -u github.com/onsi/ginkgo/ginkgo
-          ginkgo -vet=off -r .
+          ginkgo -keepGoing -vet=off -r .
         else
           go test -v -vet=off ./...
         fi
