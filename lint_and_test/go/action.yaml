@@ -7,6 +7,11 @@ inputs:
     default: "no"
     required: false
 
+  run_tests:
+    description: Enables running of tests
+    default: "yes"
+    required: false
+
 runs:
   using: composite
   steps:
@@ -43,10 +48,13 @@ runs:
     - name: Go Test
       shell: bash
       run: |
-        if [ "${{ inputs.ginkgo }}" = "yes" ]
+        if [ "${{ inputs.run_tests }}" = "yes" ]
         then
-          go get -u github.com/onsi/ginkgo/ginkgo
-          ginkgo -keepGoing -vet=off -r .
-        else
-          go test -v -vet=off ./...
+          if [ "${{ inputs.ginkgo }}" = "yes" ]
+          then
+            go get -u github.com/onsi/ginkgo/ginkgo
+            ginkgo -keepGoing -vet=off -r .
+          else
+            go test -v -vet=off ./...
+          fi
         fi
