@@ -68,16 +68,16 @@ runs:
           _pkg="github.com/${GITHUB_REPOSITORY}"
         fi
 
-        echo "Building source directory: ${{ inputs.source_directory }}/${ _pkg } in `pwd`"
+        echo "Building source directory: ${{ inputs.source_directory }}/${_pkg} in `pwd`"
         ls -l
         ls -l `pwd`/${{ inputs.source_directory }}
         find `pwd`/${{ inputs.source_directory }} -type d
 
         docker run \
           --rm \
-          -v `pwd`/${{ inputs.source_directory }}/${ _pkg }:/go/src/${ _pkg } \
+          -v `pwd`/${{ inputs.source_directory }}/${_pkg}:/go/src/${_pkg} \
           -v `pwd`/${{ inputs.artifacts_directory }}:/artifacts \
-          -e SOURCE_DIR=/go/src/${ _pkg } \
+          -e SOURCE_DIR=/go/src/${_pkg} \
           -e SHA1=${GITHUB_SHA} \
           -e BUILD=${{ inputs.build }} \
           -e VERSION="$_version" \
