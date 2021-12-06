@@ -66,6 +66,7 @@ runs:
         echo "Building source directory: ${{ inputs.source_directory }}/${{ inputs.go_package }} in `pwd`"
         ls -l
         ls -l `pwd`/${{ inputs.source_directory }}
+        ls -l `pwd`/${{ inputs.source_directory }}/${{ inputs.go_package }}
 
         docker run \
           --rm \
