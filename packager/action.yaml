@@ -21,7 +21,7 @@ inputs:
   go_package:
     description: The go package to build, eg. github.com/choria-io/go-choria
     required: false
-    default: "github.com/${GITHUB_REPOSITORY}"
+    default: "github.com/${{ env.GITHUB_REPOSITORY }}"
 
   source_directory:
     description: Where the Go code is to build
