@@ -21,7 +21,6 @@ inputs:
   go_package:
     description: The go package to build, eg. github.com/choria-io/go-choria
     required: false
-    default: "github.com/${ GITHUB_REPOSITORY }"
 
   source_directory:
     description: Where the Go code is to build
@@ -39,7 +38,7 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        path: ${{ inputs.source_directory }}/${{ inputs.go_package }}
+        path: ${{ inputs.source_directory }}/github.com/${ GITHUB_REPOSITORY }
 
     - shell: bash
       run: |
@@ -63,16 +62,22 @@ runs:
           _version="0.0.0-${GITHUB_SHA}"
         fi
 
-        echo "Building source directory: ${{ inputs.source_directory }}/${{ inputs.go_package }} in `pwd`"
+        _pkg="${{ inputs.go_package }}"
+        if [ -z $_pkg ]
+        then
+          _pkg="github.com/${ GITHUB_REPOSITORY }"
+        fi
+
+        echo "Building source directory: ${{ inputs.source_directory }}/${ _pkg } in `pwd`"
         ls -l
         ls -l `pwd`/${{ inputs.source_directory }}
         find `pwd`/${{ inputs.source_directory }} -type d
 
         docker run \
           --rm \
-          -v `pwd`/${{ inputs.source_directory }}/${{ inputs.go_package }}:/go/src/${{ inputs.go_package }} \
+          -v `pwd`/${{ inputs.source_directory }}/${ _pkg }:/go/src/${ _pkg } \
           -v `pwd`/${{ inputs.artifacts_directory }}:/artifacts \
-          -e SOURCE_DIR=/go/src/${{ inputs.go_package }} \
+          -e SOURCE_DIR=/go/src/${ _pkg } \
           -e SHA1=${GITHUB_SHA} \
           -e BUILD=${{ inputs.build }} \
           -e VERSION="$_version" \
