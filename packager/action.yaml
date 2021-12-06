@@ -1,11 +1,6 @@
 name: Choria Packager Executer
 description: Uses the Choria Packager to package Go code into aartifacts
 inputs:
-  checkout:
-    description: If set checks out a repo before packaging it, set to string 'no' to avoid checkout step
-    required: false
-    default: ""
-
   build_package:
     description: The package name to build as defined in buildspec.yaml
     required: true
@@ -42,7 +37,6 @@ runs:
   using: composite
   steps:
     - name: Checkout code
-      if: !contains(inputs.checkout, "no")
       uses: actions/checkout@v2
       with:
         path: ${{ inputs.source_directory }}/${{ inputs.go_package }}
