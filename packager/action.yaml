@@ -1,6 +1,11 @@
 name: Choria Packager Executer
 description: Uses the Choria Packager to package Go code into aartifacts
 inputs:
+  checkout:
+    description: If set checks out a repo before packaging it
+    required: false
+    default: ""
+
   build_package:
     description: The package name to build as defined in buildspec.yaml
     required: true
@@ -10,7 +15,7 @@ inputs:
     required: true
 
   version:
-    description: The version to compile
+    description: The version to compile, can be `nightly`, `tag` or a specific version
     required: true
 
   build:
@@ -36,6 +41,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Checkout code
+      if: inputs.checkout != ""
+      uses: actions/checkout@v2
+      with:
+        path: ${{ inputs.checkout }}
+
     - shell: bash
       run: |
         mkdir -p "${{ inputs.artifacts_directory }}/${{ inputs.build_package }}"
@@ -44,6 +55,18 @@ runs:
         if [ $_version = "nightly" ]
         then
           _version="0.99.0.$(date +'%Y%m%d')"
+        fi
+
+        if [ $_version = "tag" ]
+        then
+          echo "Parsing tag from: ${{ github.ref_name }}"
+          _tag="${{ github.ref_name }}"
+          _version="${_tag:1}" # drop the v
+        fi
+
+        if [ -z $_version ]
+        then
+          _version="0.0.0-${GITHUB_SHA}"
         fi
 
         docker run \
