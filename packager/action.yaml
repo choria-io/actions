@@ -38,7 +38,7 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        path: ${{ inputs.source_directory }}/github.com/${GITHUB_REPOSITORY}
+        path: ${{ inputs.source_directory }}/github.com/${{ github.repository }}
 
     - shell: bash
       run: |
