@@ -63,8 +63,9 @@ runs:
           _version="0.0.0-${GITHUB_SHA}"
         fi
 
-        echo "Building source directory: `pwd`/${{ inputs.source_directory }}/${{ inputs.go_package }}"
+        echo "Building source directory: ${{ inputs.source_directory }}/${{ inputs.go_package }} in `pwd`"
         ls -l
+        ls -l `pwd`/${{ inputs.source_directory }}
 
         docker run \
           --rm \
