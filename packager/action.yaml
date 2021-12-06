@@ -45,7 +45,7 @@ runs:
       if: inputs.checkout != ""
       uses: actions/checkout@v2
       with:
-        path: ${{ inputs.checkout }}
+        path: ${{ inputs.source_directory }}/${{ inputs.go_package }}
 
     - shell: bash
       run: |
