@@ -42,7 +42,7 @@ runs:
   using: composite
   steps:
     - name: Checkout code
-      if: inputs.checkout != "no"
+      if: !contains(inputs.checkout, "no")
       uses: actions/checkout@v2
       with:
         path: ${{ inputs.source_directory }}/${{ inputs.go_package }}
