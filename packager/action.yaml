@@ -38,7 +38,7 @@ runs:
     - name: Checkout code
       uses: actions/checkout@v2
       with:
-        path: ${{ inputs.source_directory }}/github.com/${ GITHUB_REPOSITORY }
+        path: ${{ inputs.source_directory }}/github.com/${{env.GITHUB_REPOSITORY}}
 
     - shell: bash
       run: |
@@ -65,7 +65,7 @@ runs:
         _pkg="${{ inputs.go_package }}"
         if [ -z $_pkg ]
         then
-          _pkg="github.com/${ GITHUB_REPOSITORY }"
+          _pkg="github.com/${GITHUB_REPOSITORY}"
         fi
 
         echo "Building source directory: ${{ inputs.source_directory }}/${ _pkg } in `pwd`"
