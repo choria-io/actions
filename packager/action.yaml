@@ -55,7 +55,9 @@ runs:
           echo "Parsing tag from: ${{ github.ref_name }}"
           _tag="${{ github.ref_name }}"
           _version="${_tag}"
+
           if [[ $_version == v* ]]
+          then
               _version="${_tag:1}"
           fi
         fi
