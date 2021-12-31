@@ -52,7 +52,11 @@ runs:
         then
           if [ "${{ inputs.ginkgo }}" = "yes" ]
           then
-            go get -u github.com/onsi/ginkgo/ginkgo
+            go install github.com/onsi/ginkgo/ginkgo@latest
+            ginkgo -keepGoing -vet=off -r .
+          elif [ "${{ inputs.ginkgo }}" = "v2" ]
+          then
+            go install github.com/onsi/ginkgo/v2/ginkgo@latest
             ginkgo -keepGoing -vet=off -r .
           else
             go test -v -vet=off ./...
