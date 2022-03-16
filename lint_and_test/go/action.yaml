@@ -42,7 +42,7 @@ runs:
     - name: Static Check
       shell: bash
       run: |
-        go install honnef.co/go/tools/cmd/staticcheck@latest
+        go install honnef.co/go/tools/cmd/staticcheck@main
         staticcheck $(go list ./...)
 
     - name: Go Test
