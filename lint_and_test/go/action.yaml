@@ -32,7 +32,7 @@ runs:
     - name: Spell check
       shell: bash
       run: |
-        go get -u github.com/client9/misspell/cmd/misspell
+        go install github.com/client9/misspell/cmd/misspell@latest
         find . -type f -name "*.go" | xargs misspell -error -locale US -i flavour
 
     - name: Go vet
@@ -42,7 +42,7 @@ runs:
     - name: Static Check
       shell: bash
       run: |
-        go get -u honnef.co/go/tools/cmd/staticcheck
+        go install honnef.co/go/tools/cmd/staticcheck@latest
         staticcheck $(go list ./...)
 
     - name: Go Test
