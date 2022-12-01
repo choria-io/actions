@@ -52,13 +52,12 @@ runs:
         then
           if [ "${{ inputs.ginkgo }}" = "yes" ]
           then
-            echo "Testing using Ginkgo v1"
-            go install github.com/onsi/ginkgo/ginkgo@latest
-            ginkgo -keepGoing -vet=off -skipPackage=integration -r .
+            echo "Testing using Ginkgo v1 is no longer supported"
+            exit 1
           elif [ "${{ inputs.ginkgo }}" = "v2" ]
           then
             echo "Testing using Ginkgo v2"
-            go install github.com/onsi/ginkgo/v2/ginkgo@latest
+            go install github.com/onsi/ginkgo/v2/ginkgo
             ginkgo --keep-going -vet=off --skip-package=integration -r .
           else
             go test -v -vet=off ./...

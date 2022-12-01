@@ -36,7 +36,7 @@ runs:
   using: composite
   steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         path: ${{ inputs.source_directory }}/github.com/${{ github.repository }}
 
@@ -88,11 +88,10 @@ runs:
         ls -lR "${{ inputs.artifacts_directory }}/${{ inputs.build_package }}"
 
     - name: Archive artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.build }}
         retention-days: 5
         path: |
           ${{ inputs.artifacts_directory }}
           !${{ inputs.artifacts_directory }}/**/*.src.rpm
-
