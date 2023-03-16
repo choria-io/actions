@@ -83,7 +83,7 @@ runs:
           -e VERSION="$_version" \
           -e ARTIFACTS="/artifacts/${{ inputs.build_package }}" \
           -e PACKAGE=${{ inputs.build_package }} \
-          choria/packager:${{ inputs.packager_tag }}
+          registry.choria.io/choria/packager:${{ inputs.packager_tag }}
 
         ls -lR "${{ inputs.artifacts_directory }}/${{ inputs.build_package }}"
 
