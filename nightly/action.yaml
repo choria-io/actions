@@ -1,0 +1,55 @@
+name: Choria Nightly Container Builds
+description: Builds and publishes nightly containers
+
+inputs:
+  package:
+    description: The package name to get from artifacts like 'choria'
+    required: true
+
+  repo:
+    description: The name of the repository to push to like 'choria'
+    required: true
+
+  dockerfile:
+    description: The docker file to use
+    required: true
+
+  registry_username:
+    description: Username for registry auth
+    required: true
+
+  registry_password:
+    description: Password for registry auth
+    required: true
+
+runs:
+  using: composite
+  steps:
+     - name: Checkout code
+       uses: actions/checkout@v3
+
+     - name: Download all artifacts
+       uses: actions/download-artifact@v3
+       with:
+         path: artifacts
+
+     - name: Build and Push Container
+       shell: bash
+       run: |
+         set -e
+         
+         DATE=$(date +%Y%m%d)
+         
+         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp {} src/
+         
+         docker build \
+             --build-arg DATE="${DATE}" \
+             --tag "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly-${DATE}" \
+             --tag "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly" \
+             --file ${{ inputs.dockerfile}} \
+             .
+         
+         docker login registry.choria.io -u "${{ inputs.registry_username }}" -p "${{ inputs.registry_password }}"
+         
+         docker push "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly-${DATE}"
+         docker push "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly"
