@@ -39,6 +39,9 @@ runs:
          set -e
          
          DATE=$(date +%Y%m%d)
+         echo "Building nightly container for: ${DATE}"
+         
+         find artifacts
          
          find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp {} .
          
