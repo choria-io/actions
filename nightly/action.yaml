@@ -40,7 +40,7 @@ runs:
          
          DATE=$(date +%Y%m%d)
          
-         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp {} src/
+         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp {} .
          
          docker build \
              --build-arg DATE="${DATE}" \
