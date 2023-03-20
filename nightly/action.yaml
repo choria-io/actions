@@ -39,20 +39,20 @@ runs:
          set -e
          
          DATE=$(date +%Y%m%d)
-         echo "Building nightly container for: ${DATE}"
+         echo "Building nightly container for package '${{ inputs.package }}' version '${DATE}'"
          
          find artifacts
          
-         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp {} .
+         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp -v {} .
          
          docker build \
              --build-arg DATE="${DATE}" \
-             --tag "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly-${DATE}" \
-             --tag "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly" \
+             --tag "registry.choria.io/choria-nightly/${{ inputs.repo}}:nightly-${DATE}" \
+             --tag "registry.choria.io/choria-nightly/${{ inputs.repo}}:nightly" \
              --file ${{ inputs.dockerfile}} \
              .
          
          docker login registry.choria.io -u "${{ inputs.registry_username }}" -p "${{ inputs.registry_password }}"
          
-         docker push "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly-${DATE}"
-         docker push "registry.choria.io/choria-nightly/${{ inputs.package}}:nightly"
+         docker push "registry.choria.io/choria-nightly/${{ inputs.repo}}:nightly-${DATE}"
+         docker push "registry.choria.io/choria-nightly/${{ inputs.repo}}:nightly"
