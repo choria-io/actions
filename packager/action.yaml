@@ -1,5 +1,5 @@
-name: Choria Packager Executer
-description: Uses the Choria Packager to package Go code into aartifacts
+name: Choria Packager Executor
+description: Uses the Choria Packager to package Go code into artifacts
 inputs:
   build_package:
     description: The package name to build as defined in buildspec.yaml
@@ -36,7 +36,7 @@ runs:
   using: composite
   steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         path: ${{ inputs.source_directory }}/github.com/${{ github.repository }}
 
@@ -88,7 +88,7 @@ runs:
         ls -lR "${{ inputs.artifacts_directory }}/${{ inputs.build_package }}"
 
     - name: Archive artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ${{ inputs.build }}
         retention-days: 5

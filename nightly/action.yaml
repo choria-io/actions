@@ -26,10 +26,10 @@ runs:
   using: composite
   steps:
      - name: Checkout code
-       uses: actions/checkout@v3
+       uses: actions/checkout@v4
 
      - name: Download all artifacts
-       uses: actions/download-artifact@v3
+       uses: actions/download-artifact@v4
        with:
          path: artifacts
 
@@ -43,7 +43,7 @@ runs:
          
          find artifacts
          
-         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el8.x86_64.rpm | xargs -I {} cp -v {} .
+         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el9.x86_64.rpm | xargs -I {} cp -v {} .
          
          docker build \
              --build-arg DATE="${DATE}" \
