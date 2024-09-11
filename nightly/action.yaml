@@ -40,10 +40,8 @@ runs:
          
          DATE=$(date +%Y%m%d)
          echo "Building nightly container for package '${{ inputs.package }}' version '${DATE}'"
-         
-         find .
-         
-         find . -name ${{ inputs.package}}-0.99.0.${DATE}-1.el9.x86_64.rpm | xargs -I {} cp -v {} .
+                  
+         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el9.x86_64.rpm | xargs -I {} cp -v {} .
          
          docker build \
              --build-arg DATE="${DATE}" \
