@@ -90,7 +90,7 @@ runs:
     - name: Archive artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ inputs.build }}
+        name: "${{ inputs.build }}/${{inputs.build_package}}"
         retention-days: 5
         path: |
           ${{ inputs.artifacts_directory }}
