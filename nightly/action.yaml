@@ -30,8 +30,6 @@ runs:
 
      - name: Download all artifacts
        uses: actions/download-artifact@v3
-       with:
-         path: artifacts
 
      - name: Build and Push Container
        shell: bash
@@ -41,9 +39,9 @@ runs:
          DATE=$(date +%Y%m%d)
          echo "Building nightly container for package '${{ inputs.package }}' version '${DATE}'"
          
-         find artifacts
+         find .
          
-         find artifacts -name ${{ inputs.package}}-0.99.0.${DATE}-1.el9.x86_64.rpm | xargs -I {} cp -v {} .
+         find . -name ${{ inputs.package}}-0.99.0.${DATE}-1.el9.x86_64.rpm | xargs -I {} cp -v {} .
          
          docker build \
              --build-arg DATE="${DATE}" \
