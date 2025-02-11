@@ -42,8 +42,7 @@ runs:
     - name: Static Check
       shell: bash
       run: |
-        # specific commit needed for 1.24
-        go install honnef.co/go/tools/cmd/staticcheck@0f2f29196d9a138e7beeed4e26e890cf9273f63e
+        go install honnef.co/go/tools/cmd/staticcheck@latest
         staticcheck $(go list ./...)
 
     - name: Go Test
